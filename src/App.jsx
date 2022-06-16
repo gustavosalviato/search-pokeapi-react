@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import { Search } from './components/Search';
+import { PokemonData } from './components/Search/PokemonData';
 import { fetchPokemon } from './services/getPokemon';
 
 export const App = () => {
@@ -11,8 +12,10 @@ export const App = () => {
     setLoading(true);
     const response = await fetchPokemon(query);
     const results = await response.json();
-    setPokemon(results);
     console.log(results);
+    console.log(results.weight);
+    console.log(results.height);
+    setPokemon(results);
     setLoading(false);
   }
 
@@ -20,7 +23,15 @@ export const App = () => {
     <div className="App">
       <Search getPokemon={getPokemon} />
       {!loading && pokemon ? (
-        <h1>{pokemon.name}</h1>
+        <PokemonData
+          name={pokemon.name}
+          sprite={pokemon.sprites.front_default}
+          abilities={pokemon.abilities}
+          types={pokemon.types}
+          stats={pokemon.stats}
+          weight={pokemon.weight}
+          height={pokemon.height}
+        />
       ) : null
       }
     </div>
